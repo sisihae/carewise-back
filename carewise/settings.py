@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'comment',
     'reply',
     'report',    
+    'closet',
+    'search',
 ]
 
 MIDDLEWARE = [
