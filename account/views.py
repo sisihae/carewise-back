@@ -3,7 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Account
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, validate_email
+from django.core.exceptions import ValidationError
 
 USERNAME_REGEX = r'^[a-zA-Z0-9]{1,50}$'
 username_validator = RegexValidator(
@@ -54,10 +55,10 @@ class EmailView(APIView):
 
     # 이메일 형식 검사
     try:
-        username_validator(email)
-    except:
-        return Response({'result': 0}, status=status.HTTP_200_OK)
-
+        validate_email(email)
+    except ValidationError:
+      return Response({'result': 0}, status=status.HTTP_200_OK)
+    
     # 중복 검사
     if Account.objects.filter(email=email).exists():
         return Response({'result': 10}, status=status.HTTP_200_OK)
