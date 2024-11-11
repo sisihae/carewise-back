@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from account.views import EmailVerificationView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,4 +28,5 @@ urlpatterns = [
     path('api/v1/report/', include('report.urls')),
     path('api/v1/closet/', include('closet.urls')),
     path('api/v1/search/', include('search.urls')),
+    path('account/email/<str:encoded_uid>/<str:token_uid>', EmailVerificationView.as_view()),
 ]
